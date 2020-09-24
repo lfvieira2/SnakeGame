@@ -7,13 +7,16 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class GameWindow extends JFrame {
-	
-	private Rect background;
-	private Rect rect;
-	
+	private Renderer renderer;
+
 	public GameWindow() {
-		background = new Rect(Color.BLACK, 0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
-		rect = new Rect(Color.GREEN, 50, 50, 200, 200);
+		renderer = new Renderer();
+		
+		Background background = new Background();
+		renderer.add(background);
+		
+		Snake snake = new Snake();
+		renderer.add(snake);
 		
 		setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 		setResizable(false);
@@ -23,9 +26,12 @@ public class GameWindow extends JFrame {
 		setVisible(true);
 	}
 	
+	public Renderer getRenderer() {
+		return renderer;
+	}
+
 	public void paint(Graphics g) {
-		background.paint(g);
-		rect.paint(g);
+		renderer.render(g);
 	}
 
 }
