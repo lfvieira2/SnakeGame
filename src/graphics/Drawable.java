@@ -1,4 +1,4 @@
-package snake;
+package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,7 +8,7 @@ public abstract class Drawable {
 	private Color color;
 
 	public Drawable() {
-		color = color.BLACK;
+		color = Color.BLACK;
 	}
 	
 	public Color getColor() {

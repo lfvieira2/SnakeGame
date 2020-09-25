@@ -1,17 +1,23 @@
-package snake;
+package core;
 
-public class Game {
+import graphics.Renderer;
+import scene.Background;
+import scene.Snake;
+import util.GameUtils;
+
+public class Game implements Runnable {
 	private GameWindow gameWindow;
 	private Snake snake;
 	private Renderer renderer;
 
 	public void start() {
 		snake = new Snake();
-		gameWindow = new GameWindow();
+		gameWindow = new GameWindow(snake);
 		renderer = gameWindow.getRenderer();
 
 		addElementsToScree();
-		run();
+
+		new Thread(this).start();
 	}
 
 	private void addElementsToScree() {
@@ -19,19 +25,18 @@ public class Game {
 		renderer.add(snake);
 	}
 
-	private void run() {
+	@Override
+	public void run() {
 		do {
 			gameWindow.repaint();
-			
-			try {
-				Thread.sleep(30);
-			} catch (InterruptedException e) {
-			}
-			
+			snake.move();
+			GameUtils.sleep(30);
 		} while (!isGameOver());
+		
+		gameWindow.dispose();
 	}
 
 	private boolean isGameOver() {
-		return false;
+		return snake.collidesWithItself();
 	}
 }
