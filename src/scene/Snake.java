@@ -18,7 +18,7 @@ public class Snake extends Shape {
 		direction = Direction.NONE;
 
 		Point location = new Point(Constants.SNAKE_START_X, Constants.SNAKE_START_Y);
-		Dimension dimension = new Dimension(Constants.SNAKE_PIACE_SIZE, Constants.SNAKE_PIACE_SIZE);
+		Dimension dimension = new Dimension(Constants.SNAKE_PIECE_SIZE, Constants.SNAKE_PIECE_SIZE);
 		Rect rect = new Rect(location, dimension);
 		addRect(rect);
 
