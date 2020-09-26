@@ -4,13 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Drawable {
-	
 	private Color color;
 
 	public Drawable() {
-		color = Color.BLACK;
+		this.color = Color.black;
 	}
 	
+	public Drawable(Color color) {
+		this.color = color;
+	}
+
 	public Color getColor() {
 		return color;
 	}
@@ -18,6 +21,6 @@ public abstract class Drawable {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
+	
 	public abstract void draw(Graphics g);
 }

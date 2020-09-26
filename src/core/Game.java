@@ -2,46 +2,60 @@ package core;
 
 import java.awt.Rectangle;
 
+import graphics.Food;
 import graphics.Rect;
 import graphics.Renderer;
 import scene.Background;
+import scene.GameOverText;
 import scene.Snake;
 import util.Constants;
 import util.GameUtils;
 
 public class Game implements Runnable {
 	private GameWindow gameWindow;
-	private Snake snake;
 	private Renderer renderer;
+	private Snake snake;
+	private Food food;
 
 	public void start() {
 		snake = new Snake();
 		gameWindow = new GameWindow(snake);
+		food = new Food(snake, gameWindow.getDrawingArea());
 		renderer = gameWindow.getRenderer();
-
-		addElementsToScree();
-
+		
+		addElementsToScreen();
+		
 		new Thread(this).start();
 	}
-
-	private void addElementsToScree() {
+	
+	private void addElementsToScreen() {
 		renderer.add(new Background());
 		renderer.add(snake);
+		renderer.add(food);
 	}
-
+	
 	@Override
 	public void run() {
 		do {
 			gameWindow.repaint();
 			snake.move();
-			GameUtils.sleep(30);
+			food.checkIfEaten(snake, gameWindow.getDrawingArea());
+			GameUtils.sleep(Constants.SLEEP_TIME);
+		
 		} while (!isGameOver());
 		
-		gameWindow.dispose();
+		processGameOver();
 	}
-
+	
+	private void processGameOver() {
+		renderer.remove(snake);
+		renderer.remove(food);
+		renderer.add(new GameOverText(food.getEatenTimes()));
+		gameWindow.repaint();
+	}
+	
 	private boolean isGameOver() {
-		return snake.collidesWithItself() || isSnakeHitBounds();
+		return isSnakeHitBounds() || snake.collidesWithItself();
 	}
 	
 	private boolean isSnakeHitBounds() {
